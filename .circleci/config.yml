@@ -27,9 +27,9 @@ jobs:
     
     steps:
       - run:
-        name: "echo name using environment variable"
-        command: |
-          echo $NAME 
+          name: "echo name using environment variable"
+          command: |
+            echo $NAME 
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"

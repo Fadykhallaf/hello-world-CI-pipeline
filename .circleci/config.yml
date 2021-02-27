@@ -7,37 +7,68 @@ orbs:
 
 # add two jobs to print hello world statement
 jobs:
-  print_hello:
-    docker:
-      - image: circleci/node:13.8.0
+  # First job to print hello
+  # print_hello:
+  #   docker:
+  #     - image: circleci/node:13.8.0
     
-    steps:
-      - run: echo Hello
+  #   steps:
+  #     - run: echo Hello
 
-  print_world:
-    docker:
-      - image: circleci/node:13.8.0
+  # Second Job to print world
+  # print_world:
+  #   docker:
+  #     - image: circleci/node:13.8.0
     
-    steps:
-      - run: echo world!
+  #   steps:
+  #     - run: echo world!
   
-  test_env_vars:
+  # Thrid Job to test environment variables
+  # test_env_vars:
+  #   docker:
+  #     - image: cimg/base:2020.01
+    
+  #   steps:
+  #     - run:
+  #         name: "echo name using environment variable"
+  #         command: |
+  #           echo $NAME
+
+  # Fourth Job to save the output to file
+  save_hello_world_output:
     docker:
       - image: cimg/base:2020.01
     
     steps:
-      - run:
-          name: "echo name using environment variable"
-          command: |
-            echo $NAME 
+      - run: echo "Hello World!" > ~/output.txt
+      
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - output.txt
+
+  print_output_file:
+    docker:
+      - image: cimg/base:2020.01
+
+    steps:
+      - attach_workspace:
+          at: ~/output.txt
+      
+      - run: cat ~/output.txt
+
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - print_hello
-      - print_world:
-          requires:
-            - print_hello
-      - test_env_vars
+      - save_hello_world_output
+      - print_output_file:
+        requires:
+          - save_hello_world_output
+      # - print_hello
+      # - print_world:
+          # requires:
+            # - print_hello
+      # - test_env_vars

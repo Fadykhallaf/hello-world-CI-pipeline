@@ -20,6 +20,16 @@ jobs:
     
     steps:
       - run: echo world!
+  
+  test_env_vars:
+    docker:
+      - image: cimg/base:2020.01
+    
+    steps:
+      - run:
+        name: "echo name using environment variable"
+        command: |
+          echo $NAME 
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
@@ -30,3 +40,4 @@ workflows:
       - print_world:
           requires:
             - print_hello
+      - test_env_vars

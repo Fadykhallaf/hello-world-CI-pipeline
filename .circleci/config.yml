@@ -89,7 +89,9 @@ jobs:
 
     steps:
       - run:
-          command: eco "Hello world"
+          command: return 1
+          # another example for a failed job
+          # eco "Hello world"
       
       - run:
           command: echo "Hello Error!"

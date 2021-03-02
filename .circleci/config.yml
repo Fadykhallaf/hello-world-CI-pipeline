@@ -7,17 +7,18 @@ defaults: &defaults
     - image: circleci/node:13.8.0
 
 
-# Use a commands to make the code reusable
+# Using commands to make the code reusable
 # Commands are like functions in programming languages
-commands:
-  print_pipeline_id:
-    description: "A command to print the pipeline id"
-    parameters:
-      to:
-        type: string
-        default: "Not Available"
-    steps:
-      - run: echo << parameters.to >>
+
+# commands:
+#   print_pipeline_id:
+#     description: "A command to print the pipeline id"
+#     parameters:
+#       id:
+#         type: string
+#         default: "Not Available"
+#     steps:
+#       - run: echo << parameters.id >>
       
 
 # Use a package of configuration called an orb.
@@ -74,20 +75,33 @@ jobs:
       
   #     - run: cat ~/output.txt
 
-  # The fifth job to reuse command
-  print_circleci_workflow_id:
-    <<: *defaults
+  # Using commands job
+  # print_circleci_workflow_id:
+  #   <<: *defaults
   
+  #   steps:
+  #     - print_pipeline_id:
+  #         id: $CIRCLE_WORKFLOW_ID
+
+  #Using When condition in case of job failure
+  print_hello_error:
+    <<: *defaults
+
     steps:
-      - print_pipeline_id:
-          to: $CIRCLE_WORKFLOW_ID
+      - run:
+          command: eco "Hello world"
+      
+      - run:
+          command: echo "Hello Error!"
+          when: on_fail
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - print_circleci_workflow_id
+      - print_hello_error
+      # - print_circleci_workflow_id
       # - save_hello_world_output
       # - print_output_file:
       #     requires:

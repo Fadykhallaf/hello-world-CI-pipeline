@@ -23,7 +23,7 @@ jobs:
       - run:
           name: "echo ENV var"
           command: |
-            echo $NAME
+            echo $MY_ENV_VAR
       - run:
           name: "echo circleci value"
           command: |

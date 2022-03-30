@@ -3,11 +3,9 @@ version: 2.1
 
 jobs:
   image_build:
-    docker:
-      - image: docker:17.05.0-ce-git
-    
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: docker image
           command: |

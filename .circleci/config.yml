@@ -13,9 +13,21 @@ jobs:
       - run: echo hello
   print_world:
     docker:
-      - image: circleci/node:13.8.0
+      - image: circleci/node:12-stretch
     steps:
       - run: echo world
+  print_vals:
+    docker:
+      - image: circleci/node:12-stretch
+    steps:
+      - run:
+          name: "echo ENV var"
+          command: |
+            echo $NAME
+          name: "echo circleci value"
+          command: |
+            echo << pipeline.id >>
+          
 workflows:
   # Name the workflow "welcome"
   welcome:
@@ -26,3 +38,4 @@ workflows:
       - print_world:
           requires:
             - print_hello
+      - print_vals

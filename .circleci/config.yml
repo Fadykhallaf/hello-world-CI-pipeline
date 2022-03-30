@@ -3,6 +3,8 @@ version: 2.1
 
 jobs:
   image_build:
+    docker:
+      - image: cimg/go:1.17
     steps:
       - checkout
       - setup_remote_docker

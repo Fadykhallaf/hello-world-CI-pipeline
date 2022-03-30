@@ -24,6 +24,7 @@ jobs:
           name: "echo ENV var"
           command: |
             echo $NAME
+      - run:
           name: "echo circleci value"
           command: |
             echo << pipeline.id >>

@@ -11,7 +11,7 @@ jobs:
       - run:
           name: docker image
           command: |
-            docker build --tag=rab7a .
+            docker build --tag=rab7a:${CIRCLE_BUILD_NUM} .
             docker images ls
       - run:
           name: push to dockerhub
